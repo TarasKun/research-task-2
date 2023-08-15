@@ -46,15 +46,19 @@ const UserForm = ({ addUser, users }) => {
             <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Message"></textarea>
             <button onClick={handleSubmit} disabled={!isFormValid()}>Submit</button>
             <div>
-                {users.map((user, index) => (
-                    <div key={index + user.firstName}>
-                        <p>First Name: {user.firstName}</p>
-                        <p>Last Name: {user.lastName}</p>
-                        <p>Email: {user.email}</p>
-                        <p>Message: {user.message}</p>
-                        <hr />
-                    </div>
-                ))}
+                {users.map((user, index) => {
+                    const key = index + user.firstName;
+
+                    return (
+                        <div key={key}>
+                            <p>First Name: {user.firstName}</p>
+                            <p>Last Name: {user.lastName}</p>
+                            <p>Email: {user.email}</p>
+                            <p>Message: {user.message}</p>
+                            <hr />
+                        </div>
+                    )
+                })}
             </div>
         </div>
     );
