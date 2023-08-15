@@ -5,6 +5,13 @@ import {
     UPDATE_MESSAGE
 } from './actionTypes';
 
+export function addUser(user) {
+    return {
+        type: 'ADD_USER',
+        payload: user
+    };
+}
+
 export const updateFirstName = (firstName) => ({
     type: UPDATE_FIRST_NAME,
     payload: firstName

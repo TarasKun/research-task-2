@@ -1,0 +1,102 @@
+change code that you generate. Now we shoul save list of users(name, second name, email, message)
+
+ChatGPT
+Certainly! Instead of storing a single user's data, you'll now be storing a list of users. Let's adjust the code accordingly.
+
+1. Update the Redux state:
+First, your initial state will be an array, representing a list of users:
+
+javascript
+Copy code
+const initialState = [];
+2. Adjust the reducer:
+Assuming your action type for adding a user is ADD_USER, the reducer will add the user to the list:
+
+javascript
+Copy code
+function usersReducer(state = initialState, action) {
+    switch(action.type) {
+        case 'ADD_USER':
+            return [...state, action.payload];
+        default:
+            return state;
+    }
+}
+3. Adjust the action:
+Here's how the action to add a user might look:
+
+javascript
+Copy code
+export function addUser(user) {
+    return {
+        type: 'ADD_USER',
+        payload: user
+    };
+}
+4. Update the UserForm component:
+When the form is submitted, it should send the entire user object (containing first name, last name, email, and message) to the store.
+
+jsx
+Copy code
+const handleSubmit = () => {
+    if (isFormValid()) {
+        // Send the entire user object to the store
+        addUser({
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            message: message
+        });
+
+        // Reset the form fields
+        setFirstName('');
+        setLastName('');
+        setEmail('');
+        setMessage('');
+    }
+};
+And, in your mapDispatchToProps:
+
+javascript
+Copy code
+const mapDispatchToProps = {
+    addUser
+};
+5. Retrieving the users list from the store:
+To get the list of users, you can use the following:
+
+javascript
+Copy code
+const mapStateToProps = state => {
+    return {
+        users: state
+    };
+};
+Or if you're using hooks:
+
+javascript
+Copy code
+const users = useSelector(state => state);
+6. Displaying the list of users:
+If you want to display the list of users in a component:
+
+jsx
+Copy code
+function UsersList(props) {
+    return (
+        <div>
+            {props.users.map((user, index) => (
+                <div key={index}>
+                    <p>First Name: {user.firstName}</p>
+                    <p>Last Name: {user.lastName}</p>
+                    <p>Email: {user.email}</p>
+                    <p>Message: {user.message}</p>
+                    <hr />
+                </div>
+            ))}
+        </div>
+    );
+}
+
+export default connect(mapStateToProps)(UsersList);
+Remember, this is a basic setup and does not consider things like unique IDs for users, advanced form handling, and more. Depending on your requirements, you might want to expand or refine the code.

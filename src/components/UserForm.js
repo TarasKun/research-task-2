@@ -2,20 +2,19 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import validator from 'validator';
 
-import { updateFirstName, updateLastName, updateEmail, updateMessage } from '../store/actions';
+import {addUser} from '../store/actions';
 
-const UserForm = ({ updateFirstName, updateLastName, updateEmail, updateMessage }) => {
+const UserForm = ({ addUser, users }) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
 
-    // Validation states
     const [validEmail, setValidEmail] = useState(true);
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
-        setValidEmail(validator.isEmail(e.target.value));  // Use validator's isEmail method
+        setValidEmail(validator.isEmail(e.target.value));
     };
 
     const isFormValid = () => {
@@ -24,11 +23,13 @@ const UserForm = ({ updateFirstName, updateLastName, updateEmail, updateMessage 
 
     const handleSubmit = () => {
         if (isFormValid()) {
-            updateFirstName(firstName);
-            updateLastName(lastName);
-            updateEmail(email);
-            updateMessage(message);
-            // Reset the form fields if needed
+            addUser({
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                message: message
+            });
+
             setFirstName('');
             setLastName('');
             setEmail('');
@@ -44,15 +45,28 @@ const UserForm = ({ updateFirstName, updateLastName, updateEmail, updateMessage 
             {!validEmail && <p style={{ color: 'red' }}>Invalid Email!</p>}
             <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Message"></textarea>
             <button onClick={handleSubmit} disabled={!isFormValid()}>Submit</button>
+            <div>
+                {users.map((user, index) => (
+                    <div key={index}>
+                        <p>First Name: {user.firstName}</p>
+                        <p>Last Name: {user.lastName}</p>
+                        <p>Email: {user.email}</p>
+                        <p>Message: {user.message}</p>
+                        <hr />
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }
 
 const mapDispatchToProps = {
-    updateFirstName,
-    updateLastName,
-    updateEmail,
-    updateMessage
+    addUser,
 };
 
-export default connect(null, mapDispatchToProps)(UserForm);
+const mapStateToProps = state => {
+    return {
+        users: state
+    };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(UserForm);
