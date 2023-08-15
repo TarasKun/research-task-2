@@ -47,7 +47,7 @@ const UserForm = ({ addUser, users }) => {
             <button onClick={handleSubmit} disabled={!isFormValid()}>Submit</button>
             <div>
                 {users.map((user, index) => (
-                    <div key={index}>
+                    <div key={index + user.firstName}>
                         <p>First Name: {user.firstName}</p>
                         <p>Last Name: {user.lastName}</p>
                         <p>Email: {user.email}</p>

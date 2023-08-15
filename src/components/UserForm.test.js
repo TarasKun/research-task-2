@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import UserForm from './UserForm';
 import rootReducer from '../store/reducer';
-// import '@testing-library/jest-dom/extend-expect';
 
 const renderWithRedux = (
     component,

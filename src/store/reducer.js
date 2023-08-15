@@ -1,12 +1,10 @@
 const initialState = [];
 
 function rootReducer(state = initialState, action) {
-    switch(action.type) {
-        case 'ADD_USER':
-            return [...state, action.payload];
-        default:
-            return state;
+    if (action.type === 'ADD_USER') {
+        return [...state, action.payload];
     }
+    return state;
 }
 
 export default rootReducer;
